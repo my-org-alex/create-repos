@@ -1,12 +1,6 @@
 name: Create Repositories
 on: push
 
-inputs:
-  json_file:
-    description: 'JSON File to be used'
-    type: string
-    required: true
-
 jobs:
   Treat-JSON:
     runs-on: ubuntu-latest
