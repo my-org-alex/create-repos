@@ -12,15 +12,10 @@ jobs:
       - name: Set up JQ
         run: sudo apt-get install jq
 
-      - name: Get Repository info and Set Environment Variable
+      - name: Get repository info and create repositories
         run: |
           JSON="./.github/example-files/repo-example.json"
           REPOSITORIES=$(cat "$JSON" | jq -r '.repoNames[]')
-          echo "REPOSITORIES=$REPOSITORIES" >> $GITHUB_ENV
-
-      - name: Create Repositories
-        run: |
-          REPOSITORIES=$REPOSITORIES
 
           for repository_name in $REPOSITORIES; do
             echo "Creating repository: $repository_name"
