@@ -17,6 +17,8 @@ jobs:
 
           REPOSITORIES=$(cat $JSON | jq -r '.repoNames[]')
       
+      - name: Create Repositories
+        run: |
           for repository_name in $REPOSITORIES; do
             curl -v -L \
             -X POST \
