@@ -1,0 +1,22 @@
+name: Create Repositories
+on: push
+
+jobs:
+  treat-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+
+      - name: Treat json file
+        run: |
+          JSON = "./.github/example-files/repo-example.json"
+
+          REPOSITORIES = $(cat $JSON | jq -r '.repoNames[]')
+
+          for repository in $REPOSITORIES; do
+            echo "$repository"
+          done
