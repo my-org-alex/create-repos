@@ -15,7 +15,7 @@ jobs:
       - name: Get repository info
         run: |
           JSON="./.github/example-files/repo-example.json"
-          echo "REPOSITORIES=$(cat "$JSON" | jq -r '.repoNames[]')" >> $GITHUB_ENV
+          echo "REPOSITORIES=$(cat $JSON | jq -r '.repoNames[]')" >> $GITHUB_ENV
 
       - name: Create repositories
         run: |
