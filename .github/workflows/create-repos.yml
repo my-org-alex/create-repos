@@ -12,7 +12,7 @@ jobs:
       - name: Set up JQ
         run: sudo apt-get install jq
 
-      - name: Treat json file
+      - name: Get Repository info and Set Environment Variable
         run: |
           JSON="./.github/example-files/repo-example.json"
           REPOSITORIES=$(cat "$JSON" | jq -r '.repoNames[]')
