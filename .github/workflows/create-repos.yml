@@ -14,7 +14,7 @@ jobs:
 
       - name: Get repository info and create repositories
         run: |
-          JSON="Hello"
+          export JSON="Hello"
 
       - name: Get repository info and create repositories
         run: |
