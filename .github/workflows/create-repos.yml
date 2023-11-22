@@ -2,7 +2,7 @@ name: Create Repositories
 on: push
 
 jobs:
-  Treat JSON:
+  Treat-JSON:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
