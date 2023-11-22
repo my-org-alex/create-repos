@@ -16,10 +16,10 @@ jobs:
           JSON="./.github/example-files/repo-example.json"
 
           REPOSITORIES=$(cat $JSON | jq -r '.repoNames[]')
-      - name: Create Repositories~
+      - name: Create Repositories
         run: |
           for repository_name in $REPOSITORIES; do
-            curl -L \
+            curl -i -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.personal_token }} " \
