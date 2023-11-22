@@ -2,7 +2,7 @@ name: Create Repositories
 on: push
 
 jobs:
-  treat-json:
+  Treat JSON:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -13,9 +13,9 @@ jobs:
 
       - name: Treat json file
         run: |
-          JSON = "./.github/example-files/repo-example.json"
+          JSON="./.github/example-files/repo-example.json"
 
-          REPOSITORIES = $(cat $JSON | jq -r '.repoNames[]')
+          REPOSITORIES=$(cat $JSON | jq -r '.repoNames[]')
 
           for repository in $REPOSITORIES; do
             echo "$repository"
