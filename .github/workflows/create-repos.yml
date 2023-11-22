@@ -14,11 +14,8 @@ jobs:
       - name: Treat json file
         run: |
           JSON="./.github/example-files/repo-example.json"
+          REPOSITORIES=$(cat "$JSON" | jq -r '.repoNames[]')
 
-          REPOSITORIES=$(cat $JSON | jq -r '.repoNames[]')
-      
-      - name: Create Repositories
-        run: |
           for repository_name in $REPOSITORIES; do
             echo "Creating repository: $repository_name"
             curl -v -L \
