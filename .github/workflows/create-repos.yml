@@ -39,7 +39,7 @@ jobs:
               https://api.github.com/orgs/my-org-alex/$repository_name \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-          repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' $JSON)
+          repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' "$JSON")
 
             for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" "$JSON"); do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
