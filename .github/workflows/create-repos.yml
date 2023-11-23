@@ -41,7 +41,7 @@ jobs:
             
           repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' $JSON)
 
-            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].environments[]' $JSON); do
+            for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" "$JSON"); do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               echo env_name
               production=$(echo "$repo_env_info" | jq -r '.production')
@@ -54,7 +54,7 @@ jobs:
               -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
-            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_variables[]' $JSON); do
+            for repo_var_info in $(jq -c ".repositories[$repo_index].repo_variables[]" "$JSON"); do
               repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
               value=$(echo "$repo_var_info" | jq -r '.value')
 
@@ -65,7 +65,7 @@ jobs:
               -d "{\"value\":\"$value\"}"
             done
 
-            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_secrets[]' $JSON); do
+            for repo_secret_info in $(jq -c ".repositories[$repo_index].repo_secrets[]" "$JSON"); do
               repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
               value=$(echo "$repo_secret_info" | jq -r '.value')
 
