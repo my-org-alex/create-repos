@@ -40,6 +40,7 @@ jobs:
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
             ((repo_index++))
+            echo "Repository index: $repo_index"
 
             for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
