@@ -39,11 +39,12 @@ jobs:
               https://api.github.com/orgs/my-org-alex/$repository_name \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-            for repo_env_info in "${REPOSITORY_ENVS[@]}"; do
-              ((array_index++))
-              env_name=$(echo "$repo_env_info" | jq -r '.array_index.env_name')
+          repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' $JSON)
+
+            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].environments[]' $JSON); do
+              env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               echo env_name
-              production=$(echo "$repo_env_info" | jq -r '.array_index.production')
+              production=$(echo "$repo_env_info" | jq -r '.production')
               echo production
 
               curl -X POST \
@@ -53,10 +54,9 @@ jobs:
               -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
-            for repo_var_info in "${REPOSITORY_VARS[@]}"; do
-              ((array_index++))
-              repo_var_name=$(echo "$repo_var_info" | jq -r '.array_index.repo_var_name')
-              value=$(echo "$repo_var_info" | jq -r '.array_index.value')
+            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_variables[]' $JSON; do
+              repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
+              value=$(echo "$repo_var_info" | jq -r '.value')
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
@@ -65,10 +65,10 @@ jobs:
               -d "{\"value\":\"$value\"}"
             done
 
-            for repo_secret_info in "${REPOSITORY_SECRETS[@]}"; do
+            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_secrets[]' $JSON; do
               ((array_index++))
-              repo_secret_name=$(echo "$repo_secret_info" | jq -r '.array_index.repo_secret_name')
-              value=$(echo "$repo_secret_info" | jq -r '.array_index.value')
+              repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
+              value=$(echo "$repo_secret_info" | jq -r '.value')
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
