@@ -11,7 +11,7 @@
             "value" : "this is var 1"
         }],
         "repo_secrets" : [{
-            "secret_name" : "secret1",
+            "repo_secret_name" : "secret1",
             "value" : "123456789"
         }]
     }, 
@@ -27,7 +27,7 @@
             "value" : "this is var 2"
         }],
         "repo_secrets" : [{
-            "secret_name" : "secret2",
+            "repo_secret_name" : "secret2",
             "value" : "987654321"
         }]
     }, 
@@ -43,7 +43,7 @@
             "value" : "this is var 3"
         }],
         "repo_secrets" : [{
-            "secret_name" : "secret3",
+            "repo_secret_name" : "secret3",
             "value" : "123498765"
         }]
     }]
