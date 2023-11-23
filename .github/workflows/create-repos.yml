@@ -46,38 +46,38 @@ jobs:
               exit 1
             fi
 
-            # for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
-            #   env_name=$(echo "$repo_env_info" | jq -r '.env_name')
-            #   echo "Creating environment: $env_name"
-            #   production=$(echo "$repo_env_info" | jq -r '.production')
-            #   echo "Is prod: $production"
+            for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
+              env_name=$(echo "$repo_env_info" | jq -r '.env_name')
+              echo "Creating environment: $env_name"
+              production=$(echo "$repo_env_info" | jq -r '.production')
+              echo "Is prod: $production"
 
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repository_name/environments" \
-            #   -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
-            # done
+              curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.personal_token }}" \
+              "https://api.github.com/repos/my-org-alex/$repository_name/environments" \
+              -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
+            done
 
-            # for repo_var_info in $(jq -c ".repositories[$repo_index].repo_variables[]" $JSON); do
-            #   repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
-            #   value=$(echo "$repo_var_info" | jq -r '.value')
+            for repo_var_info in $(jq -c ".repositories[$repo_index].repo_variables[]" $JSON); do
+              repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
+              value=$(echo "$repo_var_info" | jq -r '.value')
 
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_var_name" \
-            #   -d "{\"value\":\"$value\"}"
-            # done
+              curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.personal_token }}" \
+              "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_var_name" \
+              -d "{\"value\":\"$value\"}"
+            done
 
-            # for repo_secret_info in $(jq -c ".repositories[$repo_index].repo_secrets[]" $JSON); do
-            #   repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
-            #   value=$(echo "$repo_secret_info" | jq -r '.value')
+            for repo_secret_info in $(jq -c ".repositories[$repo_index].repo_secrets[]" $JSON); do
+              repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
+              value=$(echo "$repo_secret_info" | jq -r '.value')
 
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_secret_name" \
-            #   -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
-            # done
+              curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.personal_token }}" \
+              "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_secret_name" \
+              -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
+            done
           done
