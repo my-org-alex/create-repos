@@ -24,7 +24,7 @@ jobs:
           REPOSITORY_VARS($(cat $JSON | jq -r '.repositories[].repo_variables'))
           echo "REPOSITORY_VARS=${REPOSITORY_VARS[*]}" >> $GITHUB_ENV
 
-          REPOSITORY_SECRETS=($(cat $JSON | jq -r '.repositories[].secrets'))
+          REPOSITORY_SECRETS=($(cat $JSON | jq -r '.repositories[].repo_secrets'))
           echo "REPOSITORY_SECRETS=${REPOSITORY_SECRETS[*]}" >> $GITHUB_ENV
 
       - name: Create repositories
