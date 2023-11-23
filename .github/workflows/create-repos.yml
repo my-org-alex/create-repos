@@ -30,10 +30,12 @@ jobs:
       - name: Create repositories
         run: |
           for repository_name in $REPOSITORIES_NAMES; do
+            url="https://api.github.com/orgs/my-org-alex/$repository_name"
             echo "-------------------------------------------------"
             echo "| Creating repository: $repository_name"
+            echo "| API URL: $url"
             echo "-------------------------------------------------"
-            response=$(curl -vL -X POST https://api.github.com/orgs/my-org-alex/$repository_name \
+            response=$(curl -vL -X POST $url \
               -H "Accept: application/vnd.github+json" \
               -H "Authorization: token ${{ secrets.personal_token }}" \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}")
