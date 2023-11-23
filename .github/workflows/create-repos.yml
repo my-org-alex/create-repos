@@ -43,9 +43,9 @@ jobs:
 
             for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
-              echo env_name
+              echo "Creating environment: $env_name"
               production=$(echo "$repo_env_info" | jq -r '.production')
-              echo production
+              echo "Is prod: $production"
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
