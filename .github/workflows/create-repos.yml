@@ -39,7 +39,10 @@ jobs:
               https://api.github.com/orgs/my-org-alex/$repository_name \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-            for env_name in $REPOSITORY_ENVS; do
+            for repo_env_info in "${REPOSITORY_ENVS[@]}; do
+              env_name=$(echo "$repo_env_info" | jq -r '.env_name')
+              production=$(echo "$repo_env_info" | jq -r '.production')
+
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token ${{ secrets.personal_token }}" \
