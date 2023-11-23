@@ -42,7 +42,7 @@ jobs:
             for repo_env_info in "${REPOSITORY_ENVS[@]}"; do
               ((array_index++))
               env_name=$(echo "$repo_env_info" | jq -r '.array_index.env_name')
-              production=$(echo "$repo_env_info" | jq -r '.production')
+              production=$(echo "$repo_env_info" | jq -r '.array_index.production')
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
@@ -52,8 +52,9 @@ jobs:
             done
 
             for repo_var_info in "${REPOSITORY_VARS[@]}"; do
-              repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
-              value=$(echo "$repo_var_info" | jq -r '.value')
+              ((array_index++))
+              repo_var_name=$(echo "$repo_var_info" | jq -r '.array_index.repo_var_name')
+              value=$(echo "$repo_var_info" | jq -r '.array_index.value')
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
@@ -63,8 +64,9 @@ jobs:
             done
 
             for repo_secret_info in "${REPOSITORY_SECRETS[@]}"; do
-              repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
-              value=$(echo "$repo_secret_info" | jq -r '.value')
+              ((array_index++))
+              repo_secret_name=$(echo "$repo_secret_info" | jq -r '.array_index.repo_secret_name')
+              value=$(echo "$repo_secret_info" | jq -r '.array_index.value')
 
               curl -X POST \
               -H "Accept: application/vnd.github.v3+json" \
