@@ -30,7 +30,7 @@ jobs:
       - name: Create repositories
         run: |
           for repository_name in $REPOSITORIES_NAMES; do
-            url="https://api.github.com/orgs/my-org-alex/$repository_name"
+            url="https://api.github.com/orgs/my-org-alex"
             echo "-------------------------------------------------"
             echo "| Creating repository: $repository_name"
             echo "| API URL: $url"
