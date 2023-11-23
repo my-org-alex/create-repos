@@ -39,7 +39,7 @@ jobs:
               https://api.github.com/orgs/my-org-alex/$repository_name \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-            for repo_env_info in "${REPOSITORY_ENVS[@]}; do
+            for repo_env_info in "${REPOSITORY_ENVS[@]}"; do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               production=$(echo "$repo_env_info" | jq -r '.production')
 
@@ -50,7 +50,7 @@ jobs:
               -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
-            for repo_var_info in "${REPOSITORY_VARS[@]}; do
+            for repo_var_info in "${REPOSITORY_VARS[@]}"; do
               repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
               value=$(echo "$repo_var_info" | jq -r '.value')
 
@@ -61,7 +61,7 @@ jobs:
               -d "{\"value\":\"$value\"}"
             done
 
-            for repo_secret_info in "${REPOSITORY_SECRETS[@]}; do
+            for repo_secret_info in "${REPOSITORY_SECRETS[@]}"; do
               repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
               value=$(echo "$repo_secret_info" | jq -r '.value')
 
