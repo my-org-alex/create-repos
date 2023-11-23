@@ -54,7 +54,7 @@ jobs:
               -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
-            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_variables[]' $JSON; do
+            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_variables[]' $JSON); do
               repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
               value=$(echo "$repo_var_info" | jq -r '.value')
 
