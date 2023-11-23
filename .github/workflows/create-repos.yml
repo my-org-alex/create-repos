@@ -30,16 +30,20 @@ jobs:
       - name: Create repositories
         run: |
           for repository_name in $REPOSITORIES_NAMES; do
-            echo "Creating repository: $repository_name"
-            response=$(curl -v -L \
-              -X POST \
+            echo "-------------------------------------------------"
+            echo "| Creating repository: $repository_name"
+            echo "-------------------------------------------------"
+            response=$(curl -vL -X POST https://api.github.com/orgs/my-org-alex/$repository_name \
               -H "Accept: application/vnd.github+json" \
               -H "Authorization: token ${{ secrets.personal_token }}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/orgs/my-org-alex/$repository_name \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}")
-
-            echo "Response from GitHub API: $response"
+              
+              # -H "X-GitHub-Api-Version: 2022-11-28" \
+              
+            
+            echo "-------------------------------------------------"
+            echo "| Response: $response"
+            echo "-------------------------------------------------"
 
             repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' $JSON)
             echo "Repository index for $repository_name: $repo_index"
