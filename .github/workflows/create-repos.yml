@@ -40,7 +40,7 @@ jobs:
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
             for repo_env_info in "${REPOSITORY_ENVS[@]}"; do
-              env_name=$(echo "$repo_env_info" | jq -r '.env_name')
+              env_name=$(echo "$repo_env_info" | jq -r '.environments[].env_name')
               production=$(echo "$repo_env_info" | jq -r '.production')
 
               curl -X POST \
