@@ -39,7 +39,7 @@ jobs:
               https://api.github.com/orgs/my-org-alex/repos \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-            ((repo_index++))
+            repo_index=0
             echo "Repository index: $repo_index"
 
             for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
@@ -76,4 +76,5 @@ jobs:
               "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_secret_name" \
               -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
             done
+            ((repo_index++))
           done
