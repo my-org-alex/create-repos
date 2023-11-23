@@ -65,7 +65,7 @@ jobs:
               -d "{\"value\":\"$value\"}"
             done
 
-            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_secrets[]' $JSON; do
+            for repo_env_info in $(jq -c --argjson repo_index "$repo_index" '.repositories[$repo_index].repo_secrets[]' $JSON); do
               repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
               value=$(echo "$repo_secret_info" | jq -r '.value')
 
