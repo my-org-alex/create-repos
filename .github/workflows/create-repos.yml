@@ -15,7 +15,7 @@ jobs:
       - name: Get info of the repositories
         run: |
           JSON="./.github/example-files/repo-example.json"
-          REPOSITORIES_NAMES=($(cat $JSON | jq -r '.repositories[].name'))
+          REPOSITORIES_NAMES=($(cat $JSON | jq -r '.repositories[].repo_name'))
           echo "REPOSITORIES_NAMES=${REPOSITORIES_NAMES[*]}" >> $GITHUB_ENV
 
           REPOSITORY_ENVS=($(cat $JSON | jq -r '.repositories[].environments'))
