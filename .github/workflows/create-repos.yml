@@ -40,7 +40,6 @@ jobs:
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
             repo_index=$(jq -r --arg repo_name "$repository_name" '.repositories | map(.repo_name == $repo_name) | index(true)' $JSON)
-            echo "Repository index for $repository_name: $repo_index"
             if [ "$repo_index" == "null" ]; then
               echo "Error: Repository index not found for $repository_name. Check JSON file."
               exit 1
