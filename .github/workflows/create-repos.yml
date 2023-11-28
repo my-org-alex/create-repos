@@ -26,7 +26,7 @@ jobs:
             ENVIRONMENTS=$(jq '.repositories[] | select(.repo_name == "repo1") | .environments[]' "$JSON")
             echo $ENVIRONMENTS
 
-            for env_name in "${ENVIRONMENTS}"; do
+            for env_name in "${ENVIRONMENTS[@]}"; do
               echo "Environment: $env_name"
             done
           done
