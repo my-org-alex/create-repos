@@ -42,7 +42,7 @@ jobs:
             repo_index=0
             echo "Repository index: $repo_index"
 
-            for repo_env_info in $$REPOSITORIES_ENVS; do
+            for repo_env_info in $REPOSITORIES_ENVS; do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               echo "Creating environment: $env_name"
               production=$(echo "$repo_env_info" | jq -r '.production')
