@@ -3,7 +3,7 @@ run-name: Create Repositories
 on: push
 
 jobs:
-  build:
+  Create-repositories:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -11,7 +11,5 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
       - name: Run script to create Repositories
         run: python ./.github/scripts/create-repos.py
