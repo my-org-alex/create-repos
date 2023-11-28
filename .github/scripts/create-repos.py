@@ -13,7 +13,7 @@ def make_api_call(org):
         content = json.load(file)
 
     for repo in content["repositories"]:
-        repo_name = (f"Repository: {repo['repo_name']}")
+        repo_name = (f"{repo['repo_name']}")
 
         data = {
             "name": repo_name,
