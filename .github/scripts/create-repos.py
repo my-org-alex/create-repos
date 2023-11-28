@@ -1,6 +1,8 @@
 import json
 
-with open(".github/example-files/repo-example.json", "r") as read_json:
-    data = json.load(read_json)
-
-print(read_json)
+repositories = []
+with open('.github/example-files/repo-example.json') as json_file:
+    for object in json_file:
+        repository = json.loads(object)
+        repositories.append(repository)
+        print(repository)
