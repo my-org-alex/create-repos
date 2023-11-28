@@ -9,7 +9,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up J
+      - name: Set up JQ
         run: sudo apt-get install jq
 
       - name: Get info of the repositories
