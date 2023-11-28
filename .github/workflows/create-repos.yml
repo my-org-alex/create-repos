@@ -74,7 +74,7 @@ jobs:
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token ${{ secrets.personal_token }}" \
               "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_secret_name" \
-              -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"ke_id\":null}"
+              -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
             done
             ((repo_index++))
           done
