@@ -32,16 +32,16 @@ jobs:
             ENVIRONMENTS=$(echo "$REPO_INFO" | jq -c '.environments')
             echo "Creating Environments: $ENVIRONMENTS"
             for repo_env_info in $ENVIRONMENTS; do
-              # env_name=$(echo "$repo_env_info" | jq -r '.env_name')
-              # echo "Creating environment: $env_name"
-              # production=$(echo "$repo_env_info" | jq -r '.production')
-              # echo "Is prod: $production"
+              env_name=$(echo "$repo_env_info" | jq -r '.env_name')
+              echo "Creating environment: $env_name"
+              production=$(echo "$repo_env_info" | jq -r '.production')
+              echo "Is prod: $production"
 
-              # curl -X POST \
-              # -H "Accept: application/vnd.github.v3+json" \
-              # -H "Authorization: token ${{ secrets.personal_token }}" \
-              # "https://api.github.com/repos/my-org-alex/$repository_name/environments" \
-              # -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
+              curl -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.personal_token }}" \
+              "https://api.github.com/repos/my-org-alex/$repository_name/environments" \
+              -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
             VARIABLES=$(echo "$REPO_INFO" | jq -c '.repo_variables')
