@@ -31,6 +31,8 @@ def make_api_call(org):
         else:
             print(f"Error creating repository. Status code: {response.status_code}")
             print(response.text)
+
+make_api_call("my-org-alex")
     
     # print("Environments:")
     # for env in repo["environments"]:
