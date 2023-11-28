@@ -16,55 +16,15 @@ jobs:
         run: |
           JSON="./.github/example-files/repo-example.json"
 
-          REPOSITORIES=($(cat $JSON | jq -c '.repositories | .[] | .repo_name'))
+          # Extract repository names
+          REPOSITORIES=($(jq -c '.repositories | .[] | .repo_name' "$JSON"))
 
           for repo_name in "${REPOSITORIES[@]}"; do
-            echo " Creating Repository: $repo_name"
-            curl -v -L \
-              -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: token ${{ secrets.personal_token }}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/orgs/my-org-alex/repos \
-              -d "{\"name\":\"$repo_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
-            
-            # ENVIRONMENTS=$(echo "$REPO_INFO" | jq -c '.environments')
-            # for repo_env_info in $ENVIRONMENTS; do
-            #   env_name=$(echo "$repo_env_info" | jq -r '.env_name')
-            #   echo "Creating environment: $env_name"
-            #   production=$(echo "$repo_env_info" | jq -r '.production')
-            #   echo "Is prod: $production"
+            echo "Repository: $repo_name"
 
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repo_name/environments" \
-            #   -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
-            # done
+            # Extract environments for the current repository
+            ENVIRONMENTS=$(jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments' "$JSON")
 
-            # VARIABLES=$(echo "$REPO_INFO" | jq -c '.repo_variables')
-            # echo "Creating Variables: $VARIABLES"
-            # for repo_var_info in $VARIABLES; do
-            #   repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
-            #   value=$(echo "$repo_var_info" | jq -r '.value')
-
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repo_name/actions/secrets/$repo_var_name" \
-            #   -d "{\"value\":\"$value\"}"
-            # done
-
-            # SECRETS=$(echo "$REPO_INFO" | jq -c '.repo_secrets')
-            # echo "Creating Secrets: $SECRETS"
-            # for repo_secret_info in $SECRETS; do
-            #   repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
-            #   value=$(echo "$repo_secret_info" | jq -r '.value')
-
-            #   curl -X POST \
-            #   -H "Accept: application/vnd.github.v3+json" \
-            #   -H "Authorization: token ${{ secrets.personal_token }}" \
-            #   "https://api.github.com/repos/my-org-alex/$repo_name/actions/secrets/$repo_secret_name" \
-            #   -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
-            # done
+            # Print environments
+            echo "Environments: $ENVIRONMENTS"
           done
