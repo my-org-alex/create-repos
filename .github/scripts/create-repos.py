@@ -5,7 +5,7 @@ import requests
 def make_api_call(org):
     JSON_FILE = '.github/example-files/repo-example.json'
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-    API_ENDPOINT = f"https://api.github.com/org/" + org + "/repos"
+    API_ENDPOINT = f"https://api.github.com/org/'{org}'/repos"
 
     with open(JSON_FILE, 'r') as file:
         content = json.load(file)
@@ -29,7 +29,7 @@ def make_api_call(org):
         if response.status_code == 201:
             print(f"Repository '{repo_name}' created successfully.")
         else:
-            print(f"Error creating repository. Status code: {response.status_code}")
+            print(f"Error creating repository '{repo_name}'. Status code: {response.status_code}")
             print(response.text)
 
 make_api_call("my-org-alex")
