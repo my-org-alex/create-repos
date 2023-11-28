@@ -23,7 +23,8 @@ jobs:
             echo "Repository: $repo_name"
 
             # Extract environments for the current repository as an array
-            ENVIRONMENTS=($(jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == "$repo") | .environments[]' "$JSON"))
+            echo $JSON | jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments[]'
+            ENVIRONMENTS=($(echo $JSON | jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments[]'))
             echo $ENVIRONMENTS
 
             for env_info in "${ENVIRONMENTS[@]}"; do

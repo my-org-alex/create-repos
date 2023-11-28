@@ -5,6 +5,9 @@
         "environments" : [{
             "env_name" : "env1",
             "production" : false
+        }, {
+            "env_name" : "env2",
+            "production" : true
         }],
         "repo_variables" : [{
             "repo_var_name" : "var1",
