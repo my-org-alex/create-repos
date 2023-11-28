@@ -1,6 +1,9 @@
 import json
 
-data = json.loads('.github/example-files/repo-example.json')
+json_file = '.github/example-files/repo-example.json'
+
+with open(json_file, 'r') as file:
+    data = json.load(file)
 
 for repo in data["repositories"]:
     print(f"Repository: {repo['repo_name']}")
