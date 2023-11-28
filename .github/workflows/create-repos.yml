@@ -18,7 +18,7 @@ jobs:
 
           REPOSITORIES=($(jq -c '.repositories | .[] | .repo_name' $JSON))
 
-          for repository_name in "${REPOSITORIES[@]}"; do
+          for repo_name in "${REPOSITORIES[@]}"; do
             REPO_INFO=$(jq -c ".repositories[] | select(.repo_name == \"$repo_name\")" $JSON)
             echo " Creating Repository: $repo_name"
             curl -v -L \
