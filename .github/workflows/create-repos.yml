@@ -23,13 +23,12 @@ jobs:
             echo "Repository: $repo_name"
 
             # Extract environments for the current repository as an array
-            ENVIRONMENTS=($(jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments[].env_name' "$JSON"))
-
-            for env_name in "${ENVIRONMENTS[@]}"; do
-              # Extract production status for each environment
-              production=$(jq -c --arg repo "$repo_name" --arg env "$env_name" '.repositories[] | select(.repo_name == $repo) | .environments[] | select(.env_name == $env) | .production' "$JSON")
+            jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments[]' "$JSON" |
+            while read -r env_info; do
+              # Extract individual fields from each environment
+              env_name=$(echo "$env_info" | jq -r '.env_name')
+              production=$(echo "$env_info" | jq -r '.production')
 
               echo "Environment: $env_name, Production: $production"
             done
           done
-
