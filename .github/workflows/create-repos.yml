@@ -12,26 +12,15 @@ jobs:
       - name: Set up JQ
         run: sudo apt-get install jq
 
-      - name: Get info of the repositories
-        run: |
-          JSON="./.github/example-files/repo-example.json"
-          REPOSITORIES_NAMES=($(cat $JSON | jq -r '.repositories[].repo_name'))
-          echo "REPOSITORIES_NAMES=${REPOSITORIES_NAMES[*]}" >> $GITHUB_ENV
-
-          REPOSITORY_ENVS=($(cat $JSON | jq -r '.repositories[].environments'))
-          echo "REPOSITORY_ENVS=${REPOSITORY_ENVS[*]}" >> $GITHUB_ENV
-          echo "Environments: $REPOSITORY_ENVS"
-
-          REPOSITORY_VARS=($(cat $JSON | jq -r '.repositories[].repo_variables'))
-          echo "REPOSITORY_VARS=${REPOSITORY_VARS[*]}" >> $GITHUB_ENV
-
-          REPOSITORY_SECRETS=($(cat $JSON | jq -r '.repositories[].repo_secrets'))
-          echo "REPOSITORY_SECRETS=${REPOSITORY_SECRETS[*]}" >> $GITHUB_ENV
-
       - name: Create repositories
         run: |
-          for repository_name in $REPOSITORIES_NAMES; do
-            echo "Creating repository: $repository_name"
+          JSON="./.github/example-files/repo-example.json"
+
+          REPOSITORIES=($(jq -c '.repositories | keys_unsorted | .[]' $JSON))
+
+          for repository_name in "${REPOSITORIES[@]}"; do
+            REPO_INFO=$(jq -c ".repositories[\"$repository_name\"]" $JSON)
+            echo " Creating Repository: $repository_name"
             curl -v -L \
               -X POST \
               -H "Accept: application/vnd.github+json" \
@@ -40,12 +29,9 @@ jobs:
               https://api.github.com/orgs/my-org-alex/repos \
               -d "{\"name\":\"$repository_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
-            repo_index=0
-            echo "Repository index: $repo_index"
-            echo "Environments: $REPOSITORIES_ENVS"
-
-            for repo_env_info in $REPOSITORIES_ENVS; do
-              echo $repo_env_info
+            ENVIRONMENTS=$(echo "$REPO_INFO" | jq -c '.environments')
+            echo "Creating Environments: $ENVIRONMENTS"
+            for repo_env_info in $ENVIRONMENTS; do
               # env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               # echo "Creating environment: $env_name"
               # production=$(echo "$repo_env_info" | jq -r '.production')
@@ -58,7 +44,9 @@ jobs:
               # -d "{\"name\":\"$env_name\",\"auto_merge\":false,\"production\":$production}"  
             done
 
-            for repo_var_info in $(jq -c ".repositories[$repo_index].repo_variables[]" $JSON); do
+            VARIABLES=$(echo "$REPO_INFO" | jq -c '.repo_variables')
+            echo "Creating Variables: $VARIABLES"
+            for repo_var_info in $VARIABLES; do
               repo_var_name=$(echo "$repo_var_info" | jq -r '.repo_var_name')
               value=$(echo "$repo_var_info" | jq -r '.value')
 
@@ -69,7 +57,9 @@ jobs:
               -d "{\"value\":\"$value\"}"
             done
 
-            for repo_secret_info in $(jq -c ".repositories[$repo_index].repo_secrets[]" $JSON); do
+            SECRETS=$(echo "$REPO_INFO" | jq -c '.repo_secrets')
+            echo "Creating Secrets: $SECRETS"
+            for repo_secret_info in $SECRETS; do
               repo_secret_name=$(echo "$repo_secret_info" | jq -r '.repo_secret_name')
               value=$(echo "$repo_secret_info" | jq -r '.value')
 
@@ -79,5 +69,4 @@ jobs:
               "https://api.github.com/repos/my-org-alex/$repository_name/actions/secrets/$repo_secret_name" \
               -d "{\"encrypted_value\":\"$(echo -n $value | base64)\",\"key_id\":null}"
             done
-            ((repo_index++))
           done
