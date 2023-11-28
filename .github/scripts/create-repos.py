@@ -5,7 +5,7 @@ import requests
 def make_api_call(org):
     JSON_FILE = '.github/example-files/repo-example.json'
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-    API_ENDPOINT = f"https://api.github.com/org/{org}/repos"
+    API_ENDPOINT = f"https://api.github.com/orgs/{org}/repos"
 
     print(API_ENDPOINT)
 
