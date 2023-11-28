@@ -1,23 +1,45 @@
+import os
 import json
+import requests
 
-json_file = '.github/example-files/repo-example.json'
+def make_api_call(org):
+    JSON_FILE = '.github/example-files/repo-example.json'
+    ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+    API_ENDPOINT = f"https://api.github.com/org/" + org + "/repos"
 
-with open(json_file, 'r') as file:
-    data = json.load(file)
+    with open(JSON_FILE, 'r') as file:
+        content = json.load(file)
 
-for repo in data["repositories"]:
-    print(f"Repository: {repo['repo_name']}")
+    for repo in content["repositories"]:
+        repo_name = (f"Repository: {repo['repo_name']}")
+
+        data = {
+            "name": repo_name,
+            "auto_init": True,
+            "private": False
+        }
+
+        headers = {
+            "Authorization": f"token {ACCESS_TOKEN}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+
+        response = requests.post(API_ENDPOINT, json=data, headers=headers)
+
+        if response.status_code == 201:
+            print(f"Repository '{repo_name}' created successfully.")
+        else:
+            print(f"Error creating repository. Status code: {response.status_code}")
+            print(response.text)
     
-    print("Environments:")
-    for env in repo["environments"]:
-        print(f"  {env['env_name']}, Production: {env['production']}")
+    # print("Environments:")
+    # for env in repo["environments"]:
+    #     print(f"  {env['env_name']}, Production: {env['production']}")
 
-    print("Repository Variables:")
-    for var in repo["repo_variables"]:
-        print(f"  {var['repo_var_name']}: {var['value']}")
+    # print("Repository Variables:")
+    # for var in repo["repo_variables"]:
+    #     print(f"  {var['repo_var_name']}: {var['value']}")
 
-    print("Repository Secrets:")
-    for secret in repo["repo_secrets"]:
-        print(f"  {secret['repo_secret_name']}: {secret['value']}")
-
-    print("\n")
+    # print("Repository Secrets:")
+    # for secret in repo["repo_secrets"]:
+    #     print(f"  {secret['repo_secret_name']}: {secret['value']}")

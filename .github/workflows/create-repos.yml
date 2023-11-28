@@ -13,3 +13,5 @@ jobs:
           python-version: '3.x'
       - name: Run script to create Repositories
         run: python ./.github/scripts/create-repos.py
+        env:
+          ACCESS_TOKEN: ${{ secrets.personal_token }}
