@@ -19,7 +19,6 @@ jobs:
           REPOSITORIES=($(jq -c '.repositories | .[] | .repo_name' $JSON))
 
           for repo_name in "${REPOSITORIES[@]}"; do
-            REPO_INFO=$(jq -c --arg repo_name "$repo_name" '.repositories[] | select(.repo_name == $repo_name)' "$JSON")
             echo " Creating Repository: $repo_name"
             curl -v -L \
               -X POST \
@@ -30,7 +29,6 @@ jobs:
               -d "{\"name\":\"$repo_name\",\"description\":\"This is your first repository\",\"private\":false,\"has_issues\":false,\"has_projects\":false,\"has_wiki\":false}"
             
             ENVIRONMENTS=$(echo "$REPO_INFO" | jq -c '.environments')
-            echo "Creating Environments: $ENVIRONMENTS"
             for repo_env_info in $ENVIRONMENTS; do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
               echo "Creating environment: $env_name"
