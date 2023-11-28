@@ -7,6 +7,8 @@ def make_api_call(org):
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
     API_ENDPOINT = f"https://api.github.com/org/'{org}'/repos"
 
+    print(API_ENDPOINT)
+
     with open(JSON_FILE, 'r') as file:
         content = json.load(file)
 
