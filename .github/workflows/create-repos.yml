@@ -25,7 +25,11 @@ jobs:
             # Extract environments for the current repository
             ENVIRONMENTS=($(jq -c --arg repo "$repo_name" '.repositories[] | select(.repo_name == $repo) | .environments[]' "$JSON")) 
 
-            for env_name in "${ENVIRONMENTS[@]}"; do
-              echo "Environment: $env_name"
+            for env_info in "${ENVIRONMENTS[@]}"; do
+              # Extract individual fields from each environment
+              env_name=$(echo "$env_info" | jq -r '.env_name')
+              production=$(echo "$env_info" | jq -r '.production')
+
+              echo "Environment: $env_name, Production: $production"
             done
           done
