@@ -16,7 +16,7 @@ jobs:
         run: |
           JSON="./.github/example-files/repo-example.json"
 
-          REPOSITORIES=($(jq -c '.repositories | .[] | .repo_name' $JSON))
+          REPOSITORIES=($(cat $JSON | jq -c '.repositories | .[] | .repo_name'))
 
           for repo_name in "${REPOSITORIES[@]}"; do
             echo " Creating Repository: $repo_name"
