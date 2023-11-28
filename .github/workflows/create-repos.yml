@@ -41,9 +41,7 @@ jobs:
             
             repo_index=0
             echo "Repository index: $repo_index"
-            
-            repo_envs=$(jq -c ".repositories[$repo_index].environments[]" "$JSON")
-            echo "$repo_envs"
+            echo "$REPOSITORIES_ENVS"
 
             for repo_env_info in $(jq -c ".repositories[$repo_index].environments[]" $JSON); do
               env_name=$(echo "$repo_env_info" | jq -r '.env_name')
