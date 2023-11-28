@@ -26,11 +26,7 @@ jobs:
             ENVIRONMENTS=$(jq '.repositories[] | select(.repo_name == "repo1") | .environments[]' "$JSON")
             echo $ENVIRONMENTS
 
-            for env_info in "${ENVIRONMENTS[@]}"; do
-              # Extract individual fields from each environment
-              env_name=$(echo "$env_info" | jq -r '.env_name')
-              production=$(echo "$env_info" | jq -r '.production')
-
-              echo "Environment: $env_name, Production: $production"
+            for env_name in "${ENVIRONMENTS}"; do
+              echo "Environment: $env_name"
             done
           done
