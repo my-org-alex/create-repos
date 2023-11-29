@@ -94,7 +94,7 @@ def make_api_call(endpoint):
             secret_name = (f"{secret['repo_secret_name']}")
             secret_value = (f"{secret['value']}")
 
-            get_public_key = requests.get(f"{api_endpoint}/actions/secrets/public-key")
+            get_public_key = requests.get(f"{api_endpoint}/actions/secrets/public-key", headers=headers)
 
             print(get_public_key.text)
 
