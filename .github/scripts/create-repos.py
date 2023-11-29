@@ -49,7 +49,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = "{API_ENDPOINT}/{repo_name}/environments"
+            endpoint = f"{API_ENDPOINT}/{repo_name}/environments"
             response = requests.post(endpoint, json=env_data, headers=headers)
 
             if response.status_code == 201:
@@ -73,7 +73,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = "{API_ENDPOINT}/{repo_name}/actions/variables"
+            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/variables"
             response = requests.post(endpoint, json=var_data, headers=headers)
 
             if response.status_code == 201:
@@ -97,7 +97,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = "{API_ENDPOINT}/{repo_name}/actions/secrets"
+            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/secrets"
             response = requests.post(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
