@@ -105,4 +105,4 @@ def make_api_call(endpoint):
                 print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
                 print(response.text)
 
-make_api_call("https://api.github.com/orgs/my-org-alex/repos")
+make_api_call("https://api.github.com/repos/my-org-alex")
