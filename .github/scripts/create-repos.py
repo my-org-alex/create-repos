@@ -84,8 +84,8 @@ def make_api_call(endpoint):
         print("Repository Secrets:")
         for secret in repo["repo_secrets"]:
             print(f"  {secret['repo_secret_name']}: {secret['value']}")
-            secret_name = (f"{var['repo_secret_name']}")
-            secret_value = (f"{var['value']}")
+            secret_name = (f"{secret['repo_secret_name']}")
+            secret_value = (f"{secret['value']}")
             
             secret_data = {
             "encrypted_value": secret_value,
