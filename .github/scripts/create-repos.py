@@ -3,16 +3,16 @@ import json
 import requests
 
 def make_api_call(endpoint):
-    JSON_FILE = '.github/example-files/repo-example.json'
-    ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-    API_ENDPOINT = endpoint
+    json_file = '.github/example-files/repo-example.json'
+    access_token = os.environ.get("ACCESS_TOKEN")
+    api_endpoint = endpoint
 
-    with open(JSON_FILE, 'r') as file:
+    with open(json_file, 'r') as file:
         content = json.load(file)
 
     for repo in content["repositories"]:
         repo_name = (f"{repo['repo_name']}")
-        REPO_ENDPOINT = f"https://api.github.com/repos/my-org-alex/{repo_name}"
+        repo_endpoint = f"https://api.github.com/repos/my-org-alex/{repo_name}"
 
         data = {
             "name": repo_name,
@@ -21,11 +21,11 @@ def make_api_call(endpoint):
         }
 
         headers = {
-            "Authorization": f"token {ACCESS_TOKEN}",
+            "Authorization": f"token {access_token}",
             "Accept": "application/vnd.github.v3+json"
         }
 
-        response = requests.post(API_ENDPOINT, json=data, headers=headers)
+        response = requests.post(api_endpoint, json=data, headers=headers)
 
         if response.status_code == 201:
             print(f"Repository '{repo_name}' created successfully.")
@@ -44,10 +44,10 @@ def make_api_call(endpoint):
             }
 
             headers = {
-                "Authorization": f"token {ACCESS_TOKEN}",
+                "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{REPO_ENDPOINT}/environments/{env_name}"
+            endpoint = f"{repo_endpoint}/environments/{env_name}"
             response = requests.put(endpoint, json=env_data, headers=headers)
 
             if response.status_code == 201:
@@ -68,10 +68,10 @@ def make_api_call(endpoint):
             }
 
             headers = {
-                "Authorization": f"token {ACCESS_TOKEN}",
+                "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{REPO_ENDPOINT}/actions/variables"
+            endpoint = f"{repo_endpoint}/actions/variables"
             response = requests.post(endpoint, json=var_data, headers=headers)
 
             if response.status_code == 201:
@@ -92,10 +92,10 @@ def make_api_call(endpoint):
             }
 
             headers = {
-                "Authorization": f"token {ACCESS_TOKEN}",
+                "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{REPO_ENDPOINT}/actions/secrets/{secret_name}"
+            endpoint = f"{api_endpoint}/{repo_name}/actions/secrets/{secret_name}"
             response = requests.put(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
@@ -104,4 +104,4 @@ def make_api_call(endpoint):
                 print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
                 print(response.text)
 
-make_api_call("https://api.github.com/my-org-alex/repos")
+make_api_call("https://api.github.com/orgs/my-org-alex/repos")
