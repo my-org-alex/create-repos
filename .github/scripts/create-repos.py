@@ -95,7 +95,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{api_endpoint}/{repo_name}/actions/secrets/{secret_name}"
+            endpoint = f"{api_endpoint}/actions/secrets/{secret_name}"
             response = requests.put(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
