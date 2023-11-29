@@ -35,15 +35,13 @@ def make_api_call(endpoint):
 
         response = requests.post(api_endpoint, json=data, headers=headers)
 
-        if response.status_code == 201:
+        if (response.status_code == 200 or response.status_code == 201):
             print(f"Repository '{repo_name}' created successfully.")
         else:
             print(f"Error creating repository '{repo_name}'. Status code: {response.status_code}")
             print(response.text)
         
-        print("Environments:")
         for env in repo["environments"]:
-            print(f"  {env['env_name']}, Production: {env['production']}")
             env_name = (f"{env['env_name']}")
 
             headers = {
@@ -53,15 +51,13 @@ def make_api_call(endpoint):
             endpoint = f"{repo_endpoint}/environments/{env_name}"
             response = requests.put(endpoint, headers=headers)
 
-            if response.status_code == 201:
+            if (response.status_code == 200 or response.status_code == 201):
                 print(f"Environment '{env_name}' created successfully.")
             else:
                 print(f"Error creating environment '{env_name}'. Status code: {response.status_code}")
                 print(response.text)
 
-        print("Repository Variables:")
         for var in repo["repo_variables"]:
-            print(f"  {var['repo_var_name']}: {var['value']}")
             var_name = (f"{var['repo_var_name']}")
             var_value = (f"{var['value']}")
             
@@ -77,15 +73,13 @@ def make_api_call(endpoint):
             endpoint = f"{repo_endpoint}/actions/variables"
             response = requests.post(endpoint, json=var_data, headers=headers)
 
-            if response.status_code == 201:
+            if (response.status_code == 200 or response.status_code == 201):
                 print(f"Variable '{var_name}' created successfully.")
             else:
                 print(f"Error creating variable '{var_name}'. Status code: {response.status_code}")
                 print(response.text)
 
-        print("Repository Secrets:")
         for secret in repo["repo_secrets"]:
-            print(f"  {secret['repo_secret_name']}: {secret['value']}")
             secret_name = (f"{secret['repo_secret_name']}")
             secret_value = (f"{secret['value']}")
 
@@ -106,7 +100,7 @@ def make_api_call(endpoint):
             endpoint = f"{repo_endpoint}/actions/secrets/{secret_name}"
             response = requests.put(endpoint, json=secret_data, headers=headers)
 
-            if response.status_code == 201:
+            if (response.status_code == 200 or response.status_code == 201):
                 print(f"Secret '{secret_name}' created successfully.")
             else:
                 print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
