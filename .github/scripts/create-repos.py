@@ -38,19 +38,18 @@ def make_api_call(endpoint):
         for env in repo["environments"]:
             print(f"  {env['env_name']}, Production: {env['production']}")
             env_name = (f"{env['env_name']}")
-            env_prod = (f"{env['production']}")
             
             env_data = {
-            "name": env_name,    
-            "production": env_prod
+            "wait_timer": 0,
+            "prevent_self_review": False
             }
 
             headers = {
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{API_ENDPOINT}/{repo_name}/environments"
-            response = requests.post(endpoint, json=env_data, headers=headers)
+            endpoint = f"{API_ENDPOINT}/{repo_name}/environments/{env_name}"
+            response = requests.put(endpoint, json=env_data, headers=headers)
 
             if response.status_code == 201:
                 print(f"Environment '{env_name}' created successfully.")
@@ -89,16 +88,16 @@ def make_api_call(endpoint):
             secret_value = (f"{var['value']}")
             
             secret_data = {
-            "name": secret_name,
-            "value": secret_value
+            "encrypted_value": secret_value,
+            "visibility": "private"
             }
 
             headers = {
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/secrets"
-            response = requests.post(endpoint, json=secret_data, headers=headers)
+            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/secrets/{secret_name}"
+            response = requests.put(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
                 print(f"Secret '{secret_name}' created successfully.")
