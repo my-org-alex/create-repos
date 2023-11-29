@@ -95,12 +95,11 @@ def make_api_call(endpoint):
             secret_value = (f"{secret['value']}")
 
             get_public_key = requests.get(f"{repo_endpoint}/actions/secrets/public-key", headers=headers)
-
-            print(get_public_key.text)
-
             json_data = get_public_key.json()
             public_key = json_data["key"]
             public_key_id = json_data["key_id"]
+            print(public_key)
+            print(public_key_id)
 
             secret_data = {
             "encrypted_value": encrypt(public_key , secret_value),
@@ -111,7 +110,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{api_endpoint}/actions/secrets/{secret_name}"
+            endpoint = f"{repo_endpoint}/actions/secrets/{secret_name}"
             response = requests.put(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
