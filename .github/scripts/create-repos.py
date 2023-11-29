@@ -49,7 +49,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = "{API_ENDPOINT}/{repo_name}/environments/{env_name}"
+            endpoint = "{API_ENDPOINT}/{repo_name}/environments"
             response = requests.post(endpoint, json=env_data, headers=headers)
 
             if response.status_code == 201:
