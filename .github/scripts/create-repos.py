@@ -2,10 +2,10 @@ import os
 import json
 import requests
 
-def make_api_call(org):
+def make_api_call(endpoint):
     JSON_FILE = '.github/example-files/repo-example.json'
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-    API_ENDPOINT = f"https://api.github.com/orgs/{org}/repos"
+    API_ENDPOINT = endpoint
 
     print(API_ENDPOINT)
 
@@ -34,7 +34,7 @@ def make_api_call(org):
             print(f"Error creating repository '{repo_name}'. Status code: {response.status_code}")
             print(response.text)
 
-make_api_call("my-org-alex")
+make_api_call("https://api.github.com/orgs/my-org-alex/repos")
     
     # print("Environments:")
     # for env in repo["environments"]:
