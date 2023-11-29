@@ -88,7 +88,6 @@ def make_api_call(endpoint):
             
             secret_data = {
             "encrypted_value": secret_value,
-            "visibility": "private"
             }
 
             headers = {
