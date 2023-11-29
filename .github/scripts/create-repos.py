@@ -1,6 +1,14 @@
 import os
 import json
 import requests
+from base64 import b64encode
+from nacl import encoding, public
+
+def encrypt(public_key: str, secret_value: str) -> str:
+  public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+  sealed_box = public.SealedBox(public_key)
+  encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+  return b64encode(encrypted).decode("utf-8")
 
 def make_api_call(endpoint):
     json_file = '.github/example-files/repo-example.json'
@@ -85,9 +93,12 @@ def make_api_call(endpoint):
             print(f"  {secret['repo_secret_name']}: {secret['value']}")
             secret_name = (f"{secret['repo_secret_name']}")
             secret_value = (f"{secret['value']}")
+            public_key = requests.get(f"{api_endpoint}/actions/secrets/public-key")
+
             
             secret_data = {
-            "encrypted_value": secret_value,
+            "encrypted_value": encrypt(public_key , secret_value),
+            "key_id": public_key
             }
 
             headers = {
