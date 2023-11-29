@@ -45,18 +45,13 @@ def make_api_call(endpoint):
         for env in repo["environments"]:
             print(f"  {env['env_name']}, Production: {env['production']}")
             env_name = (f"{env['env_name']}")
-            
-            env_data = {
-            "wait_timer": 0,
-            "prevent_self_review": False
-            }
 
             headers = {
                 "Authorization": f"token {access_token}",
                 "Accept": "application/vnd.github.v3+json"
             }
             endpoint = f"{repo_endpoint}/environments/{env_name}"
-            response = requests.put(endpoint, json=env_data, headers=headers)
+            response = requests.put(endpoint, headers=headers)
 
             if response.status_code == 201:
                 print(f"Environment '{env_name}' created successfully.")
@@ -98,8 +93,6 @@ def make_api_call(endpoint):
             json_data = get_public_key.json()
             public_key = json_data["key"]
             public_key_id = json_data["key_id"]
-            print(public_key)
-            print(public_key_id)
 
             secret_data = {
             "encrypted_value": encrypt(public_key , secret_value),
