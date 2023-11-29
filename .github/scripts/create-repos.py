@@ -95,6 +95,9 @@ def make_api_call(endpoint):
             secret_value = (f"{secret['value']}")
 
             get_public_key = requests.get(f"{api_endpoint}/actions/secrets/public-key")
+
+            print(get_public_key.text)
+
             json_data = get_public_key.json()
             public_key = json_data["key"]
             public_key_id = json_data["key_id"]
