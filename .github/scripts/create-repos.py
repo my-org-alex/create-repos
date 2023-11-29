@@ -7,13 +7,12 @@ def make_api_call(endpoint):
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
     API_ENDPOINT = endpoint
 
-    print(API_ENDPOINT)
-
     with open(JSON_FILE, 'r') as file:
         content = json.load(file)
 
     for repo in content["repositories"]:
         repo_name = (f"{repo['repo_name']}")
+        REPO_ENDPOINT = f"https://api.github.com/repos/my-org-alex/{repo_name}"
 
         data = {
             "name": repo_name,
@@ -48,7 +47,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{API_ENDPOINT}/{repo_name}/environments/{env_name}"
+            endpoint = f"{REPO_ENDPOINT}/environments/{env_name}"
             response = requests.put(endpoint, json=env_data, headers=headers)
 
             if response.status_code == 201:
@@ -72,7 +71,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/variables"
+            endpoint = f"{REPO_ENDPOINT}/actions/variables"
             response = requests.post(endpoint, json=var_data, headers=headers)
 
             if response.status_code == 201:
@@ -96,7 +95,7 @@ def make_api_call(endpoint):
                 "Authorization": f"token {ACCESS_TOKEN}",
                 "Accept": "application/vnd.github.v3+json"
             }
-            endpoint = f"{API_ENDPOINT}/{repo_name}/actions/secrets/{secret_name}"
+            endpoint = f"{REPO_ENDPOINT}/actions/secrets/{secret_name}"
             response = requests.put(endpoint, json=secret_data, headers=headers)
 
             if response.status_code == 201:
@@ -105,4 +104,4 @@ def make_api_call(endpoint):
                 print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
                 print(response.text)
 
-make_api_call("https://api.github.com/repos/my-org-alex")
+make_api_call("https://api.github.com/my-org-alex/repos")
