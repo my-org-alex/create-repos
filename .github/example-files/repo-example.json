@@ -33,7 +33,7 @@
         "repo_secrets" : [{
             "repo_secret_name" : "secret2",
             "value" : "987654321",
-            "encryption" : false
+            "encryption" : true
         }]
     }, 
 
@@ -41,7 +41,7 @@
         "repo_name" : "repo3",
         "environments" : [{
             "env_name" : "env3",
-            "production" : false
+            "production" : true
         }],
         "repo_variables" : [{
             "repo_var_name" : "var3",
@@ -50,7 +50,7 @@
         "repo_secrets" : [{
             "repo_secret_name" : "secret3",
             "value" : "123498765",
-            "encryption" : false
+            "encryption" : true
         }]
     }]
 }
