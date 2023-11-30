@@ -92,12 +92,14 @@ def make_api_call(json_file, org, endpoint):
                 json_data = get_public_key.json()
                 public_key = json_data["key"]
                 public_key_id = json_data["key_id"]
+                encrypted_value = encrypt(public_key , secret_value)
+                print (f"Secret encrypted: {encrypted_value}")
 
                 secret_data = {
-                "encrypted_value": encrypt(public_key , secret_value),
+                "encrypted_value": encrypted_value,
                 "key_id": public_key_id
                 }
-                
+
                 headers = {
                     "Authorization": f"token {access_token}",
                     "Accept": "application/vnd.github.v3+json"
@@ -107,7 +109,6 @@ def make_api_call(json_file, org, endpoint):
 
                 if (response.status_code == 200 or response.status_code == 201):
                     print(f"Secret '{secret_name}' created successfully.")
-                    print(secret_value)
                 else:
                     print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
                     print(response.text)
