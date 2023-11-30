@@ -16,7 +16,7 @@
         "repo_secrets" : [{
             "repo_secret_name" : "secret1",
             "value" : "123456789",
-            "encryption" : false
+            "encryption" : true
         }]
     }, 
 
@@ -24,7 +24,7 @@
         "repo_name" : "repo2",
         "environments" : [{
             "env_name" : "env2",
-            "production" : true
+            "production" : false
         }],
         "repo_variables" : [{
             "repo_var_name" : "var2",
