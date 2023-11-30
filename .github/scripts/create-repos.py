@@ -94,6 +94,7 @@ def make_api_call(json_file, org, endpoint):
             public_key_id = json_data["key_id"]
             encrypted_value = encrypt(public_key , secret_value)
             print (f"Secret encrypted: {encrypted_value}")
+            print (f"Key ID: {public_key_id}")
 
             secret_data = {
             "encrypted_value": encrypted_value,
