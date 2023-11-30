@@ -86,23 +86,18 @@ def make_api_call(json_file, org, endpoint):
                 secret_name = (f"{secret['repo_secret_name']}")
                 secret_value = (f"{secret['value']}")
                 secret_encryption = (f"{secret['encryption']}")
+                print(secret_encryption)
+            
+                get_public_key = requests.get(f"{repo_endpoint}/actions/secrets/public-key", headers=headers)
+                json_data = get_public_key.json()
+                public_key = json_data["key"]
+                public_key_id = json_data["key_id"]
 
-                if(secret_encryption == True):
-                    get_public_key = requests.get(f"{repo_endpoint}/actions/secrets/public-key", headers=headers)
-                    json_data = get_public_key.json()
-                    public_key = json_data["key"]
-                    public_key_id = json_data["key_id"]
-
-                    secret_data = {
-                    "encrypted_value": encrypt(public_key , secret_value),
-                    "key_id": public_key_id
-                    }
-                else:
-                    secret_data = {
-                    "encrypted_value": secret_value,
-                    "key_id": ""
-                    }
-
+                secret_data = {
+                "encrypted_value": encrypt(public_key , secret_value),
+                "key_id": public_key_id
+                }
+                
                 headers = {
                     "Authorization": f"token {access_token}",
                     "Accept": "application/vnd.github.v3+json"
