@@ -99,7 +99,8 @@ def make_api_call(json_file, org, endpoint):
                     }
                 else:
                     secret_data = {
-                    "encrypted_value": secret_value
+                    "encrypted_value": secret_value,
+                    "key_id": ""
                     }
 
                 headers = {
