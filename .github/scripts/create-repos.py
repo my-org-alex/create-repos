@@ -21,6 +21,11 @@ def make_api_call(json_file, org, endpoint):
         repo_name = (f"{repo['repo_name']}")
         repo_endpoint = f"https://api.github.com/repos/{org}/{repo_name}"
         
+        headers = {
+                "Authorization": f"token {access_token}",
+                "Accept": "application/vnd.github.v3+json"
+        }
+
         repo_exists = requests.get(f"{repo_endpoint}", headers=headers)
 
         if repo_exists.status_code == 404:
@@ -28,11 +33,6 @@ def make_api_call(json_file, org, endpoint):
                 "name": repo_name,
                 "auto_init": True,
                 "private": False
-            }
-
-            headers = {
-                "Authorization": f"token {access_token}",
-                "Accept": "application/vnd.github.v3+json"
             }
 
             response = requests.post(api_endpoint, json=data, headers=headers)
@@ -72,6 +72,7 @@ def make_api_call(json_file, org, endpoint):
                     "Authorization": f"token {access_token}",
                     "Accept": "application/vnd.github.v3+json"
                 }
+                
                 endpoint = f"{repo_endpoint}/actions/variables"
                 response = requests.post(endpoint, json=var_data, headers=headers)
 
