@@ -22,14 +22,3 @@ jobs:
         run: python ./.github/scripts/create-repos.py
         env:
           ACCESS_TOKEN: ${{ secrets.personal_token }}
-      
-      - name: Get secrets
-        run: |
-            echo ${{ secrets.secret1 }} > ./.github/example-files/secret.txt
-            echo ${{ secrets.secret2 }} > ./.github/example-files/secret.txt
-            echo ${{ secrets.secret3 }} > ./.github/example-files/secret.txt
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: ./.github/example-files/secret.txt
