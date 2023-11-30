@@ -109,7 +109,7 @@ def make_api_call(json_file, org, endpoint):
                 else:
                     print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
                     print(response.text)
-            else:
-                print(f"Repository {repo_name} already exists!")
+        else:
+            print(f"Repository {repo_name} already exists!")
 
 make_api_call('.github/example-files/repo-example.json', "my-org-alex", "https://api.github.com/orgs/my-org-alex/repos")
