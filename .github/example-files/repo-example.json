@@ -30,7 +30,7 @@
     {
         "repo_name" : "repo2",
         "environments" : [{
-            "env_name" : "env2",
+            "env_name" : "env3",
             "production" : false,
             "env_secrets" : [{
                 "env_secret_name" : "envsecret2",
@@ -50,7 +50,7 @@
     {
         "repo_name" : "repo3",
         "environments" : [{
-            "env_name" : "env3",
+            "env_name" : "env4",
             "production" : true,
             "env_secrets" : [{
                 "env_secret_name" : "envsecret4",
