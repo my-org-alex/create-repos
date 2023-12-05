@@ -1,69 +1,108 @@
 {
-    "repositories" : [
-    {
-        "repo_name" : "repo1",
+    "repositories" : [{
+        "repo_name" : "potato_repository",
         "environments" : [{
-            "env_name" : "env1",
-            "production" : false,
+            "env_name" : "dev",
             "env_secrets" : [{
                 "env_secret_name" : "envsecret1",
-                "value" : "123456789"
+                "value" : "valueenvsecret1"
+            },{
+                "env_secret_name" : "envsecret2",
+                "value" : "valueenvsecret2"
             }]
         }, {
-            "env_name" : "env2",
-            "production" : true,
+            "env_name" : "prod",
             "env_secrets" : [{
-                "env_secret_name" : "envsecret2",
-                "value" : "987654321"
-            }]
-        }],
-        "repo_variables" : [{
-            "repo_var_name" : "var1",
-            "value" : "this is var 1"
-        }],
-        "repo_secrets" : [{
-            "repo_secret_name" : "secret1",
-            "value" : "123456789"
-        }]
-    }, 
-
-    {
-        "repo_name" : "repo2",
-        "environments" : [{
-            "env_name" : "env3",
-            "production" : false,
-            "env_secrets" : [{
-                "env_secret_name" : "envsecret2",
-                "value" : "678954321"
-            }]
-        }],
-        "repo_variables" : [{
-            "repo_var_name" : "var2",
-            "value" : "this is var 2"
-        }],
-        "repo_secrets" : [{
-            "repo_secret_name" : "secret2",
-            "value" : "987654321"
-        }]
-    }, 
-
-    {
-        "repo_name" : "repo3",
-        "environments" : [{
-            "env_name" : "env4",
-            "production" : true,
-            "env_secrets" : [{
+                "env_secret_name" : "envsecret3",
+                "value" : "valueenvsecret3"
+            },{
                 "env_secret_name" : "envsecret4",
-                "value" : "987651234"
+                "value" : "valueenvsecret4"
             }]
         }],
         "repo_variables" : [{
-            "repo_var_name" : "var3",
-            "value" : "this is var 3"
+            "repo_var_name" : "potato_var1",
+            "value" : "this is var 1 for potato repository"
+        },{
+            "repo_var_name" : "potato_var2",
+            "value": "this is var 2 for potato repository" 
         }],
         "repo_secrets" : [{
-            "repo_secret_name" : "secret3",
-            "value" : "123498765"
+            "repo_secret_name" : "potato_secret1",
+            "value" : "valuesecret1"
+        },{
+            "repo_secret_name" : "potato_secret2",
+            "value" : "valuesecret2"
+        }]
+    },{
+        "repo_name" : "carrot_repository",
+        "environments" : [{
+            "env_name" : "dev",
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret5",
+                "value" : "valueenvsecret5"
+            },{
+                "env_secret_name" : "envsecret6",
+                "value" : "valueenvsecret6"
+            }]
+        }, {
+            "env_name" : "prod",
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret7",
+                "value" : "valueenvsecret7"
+            },{
+                "env_secret_name" : "envsecret8",
+                "value" : "valueenvsecret8"
+            }]
+        }],
+        "repo_variables" : [{
+            "repo_var_name" : "carrot_var1",
+            "value" : "this is var 1 for carrot repository"
+        },{
+            "repo_var_name" : "potato_var2",
+            "value": "this is var 2 for carrot repository" 
+        }],
+        "repo_secrets" : [{
+            "repo_secret_name" : "carrot_secret1",
+            "value" : "valuesecret1"
+        },{
+            "repo_secret_name" : "carrot_secret2",
+            "value" : "valuesecret2"
+        }]
+    },{
+        "repo_name" : "lettuce_repository",
+        "environments" : [{
+            "env_name" : "dev",
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret9",
+                "value" : "valueenvsecret9"
+            },{
+                "env_secret_name" : "envsecret10",
+                "value" : "valueenvsecret10"
+            }]
+        }, {
+            "env_name" : "prod",
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret11",
+                "value" : "valueenvsecret11"
+            },{
+                "env_secret_name" : "envsecret12",
+                "value" : "valueenvsecret12"
+            }]
+        }],
+        "repo_variables" : [{
+            "repo_var_name" : "lettuce_var1",
+            "value" : "this is var 1 for lettuce repository"
+        },{
+            "repo_var_name" : "lettuce_var2",
+            "value": "this is var 2 for lettuce repository" 
+        }],
+        "repo_secrets" : [{
+            "repo_secret_name" : "lettuce_secret1",
+            "value" : "valuesecret1"
+        },{
+            "repo_secret_name" : "lettuce_secret2",
+            "value" : "valuesecret2"
         }]
     }]
 }
