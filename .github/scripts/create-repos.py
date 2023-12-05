@@ -62,6 +62,11 @@ class EnvironmentSecret:
     def create_env_secret(self, org, access_token, repo_name, env_name):
         secret_name = self.__name
         value = self.__value
+        
+        headers = {
+            "Authorization": f"token {access_token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
 
         get_public_key = requests.get(f"https://api.github.com/repos/{org}/{repo_name}/actions/secrets/public-key", headers=headers)
         json_data = get_public_key.json()
@@ -72,11 +77,6 @@ class EnvironmentSecret:
         secret_data = {
         "encrypted_value": encrypted_value,
         "key_id": public_key_id
-        }
-
-        headers = {
-            "Authorization": f"token {access_token}",
-            "Accept": "application/vnd.github.v3+json"
         }
 
         repo_info = requests.get(f"https://api.github.com/repos/{org}/{repo_name}", headers=headers)
