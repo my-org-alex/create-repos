@@ -11,6 +11,32 @@ def encrypt(public_key: str, secret_value: str) -> str:
     encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
     return b64encode(encrypted).decode("utf-8")
 
+class Repository:
+    def __init__(self, name):
+        self.__name = name
+
+    def create_repo(self, org, access_token):
+        repo_name = self.__name
+
+        headers = {
+                "Authorization": f"token {access_token}",
+                "Accept": "application/vnd.github.v3+json"
+        }
+
+        data = {
+                "name": repo_name,
+                "auto_init": True,
+                "private": False
+            }
+
+        response = requests.post(f"https://api.github.com/orgs/{org}/repos", json=data, headers=headers)
+
+        if (response.status_code == 200 or response.status_code == 201):
+            print(f"Repository '{repo_name}' created successfully.")
+        else:
+            print(f"Error creating repository '{repo_name}'. Status code: {response.status_code}")
+            print(response.text)
+
 class Environment:
     def __init__(self, name):
         self.__name = name
@@ -129,35 +155,14 @@ class Secret:
             print(f"Error creating Secret '{secret_name}'. Status code: {response.status_code}")
             print(response.text)
     
-class Repository:
-    def __init__(self, name):
-        self.__name = name
-
-    def create_repo(self, org, access_token):
-        repo_name = self.__name
-
-        headers = {
-                "Authorization": f"token {access_token}",
-                "Accept": "application/vnd.github.v3+json"
-        }
-
-        data = {
-                "name": repo_name,
-                "auto_init": True,
-                "private": False
-            }
-
-        response = requests.post(f"https://api.github.com/orgs/{org}/repos", json=data, headers=headers)
-
-        if (response.status_code == 200 or response.status_code == 201):
-            print(f"Repository '{repo_name}' created successfully.")
-        else:
-            print(f"Error creating repository '{repo_name}'. Status code: {response.status_code}")
-            print(response.text)
-
 
 def create_repositories(json_file, org):
     access_token = os.environ.get("ACCESS_TOKEN")
+
+    headers = {
+        "Authorization": f"token {access_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
 
     with open(json_file, 'r') as file:
         content = json.load(file)
