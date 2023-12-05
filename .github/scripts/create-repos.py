@@ -174,7 +174,7 @@ def create_repositories(json_file, org):
         repo_exists = requests.get(f"https://api.github.com/repos/{org}/{repo_name}", headers=headers)
 
         if repo_exists.status_code == 404:
-            repository.create_repo()
+            repository.create_repo(org, access_token)
 
             for env in repo["environments"]:
                 env_name = (f"{env['env_name']}")
