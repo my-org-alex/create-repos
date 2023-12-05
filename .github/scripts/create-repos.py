@@ -55,6 +55,33 @@ def make_api_call(json_file, org, endpoint):
 
                 if (response.status_code == 200 or response.status_code == 201):
                     print(f"Environment '{env_name}' created successfully.")
+                    for secret in env["env_secrets"]:
+                        secret_name = (f"{secret['env_secret_name']}")
+                        secret_value = (f"{secret['value']}")
+                    
+                        get_public_key = requests.get(f"{repo_endpoint}/actions/secrets/public-key", headers=headers)
+                        json_data = get_public_key.json()
+                        public_key = json_data["key"]
+                        public_key_id = json_data["key_id"]
+                        encrypted_value = encrypt(public_key , secret_value)
+
+                        secret_data = {
+                        "encrypted_value": encrypted_value,
+                        "key_id": public_key_id
+                        }
+
+                        headers = {
+                            "Authorization": f"token {access_token}",
+                            "Accept": "application/vnd.github.v3+json"
+                        }
+                        endpoint = f"{repo_endpoint}/actions/secrets/{secret_name}"
+                        response = requests.put(endpoint, json=secret_data, headers=headers)
+
+                        if (response.status_code == 200 or response.status_code == 201):
+                            print(f"Secret '{secret_name}' created successfully.")
+                        else:
+                            print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
+                            print(response.text)
                 else:
                     print(f"Error creating environment '{env_name}'. Status code: {response.status_code}")
                     print(response.text)
@@ -101,13 +128,18 @@ def make_api_call(json_file, org, endpoint):
                     "Authorization": f"token {access_token}",
                     "Accept": "application/vnd.github.v3+json"
                 }
-                endpoint = f"{repo_endpoint}/actions/secrets/{secret_name}"
+
+                repo_info = requests.get(repo_endpoint, headers=headers)
+                repo_info_json = repo_info.json()
+                repo_id = repo_info_json["id"]
+
+                endpoint = f"https://api.github.com/repositories/{repo_id}/environments/{env_name}/secrets/{secret_name}"
                 response = requests.put(endpoint, json=secret_data, headers=headers)
 
                 if (response.status_code == 200 or response.status_code == 201):
-                    print(f"Secret '{secret_name}' created successfully.")
+                    print(f"Environment Secret '{secret_name}' created successfully.")
                 else:
-                    print(f"Error creating secret '{secret_name}'. Status code: {response.status_code}")
+                    print(f"Error creating Environment Secret '{secret_name}'. Status code: {response.status_code}")
                     print(response.text)
         else:
             print(f"Repository {repo_name} already exists!")

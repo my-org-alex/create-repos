@@ -4,10 +4,18 @@
         "repo_name" : "repo1",
         "environments" : [{
             "env_name" : "env1",
-            "production" : false
+            "production" : false,
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret1",
+                "value" : "123456789"
+            }]
         }, {
             "env_name" : "env2",
-            "production" : true
+            "production" : true,
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret2",
+                "value" : "987654321"
+            }]
         }],
         "repo_variables" : [{
             "repo_var_name" : "var1",
@@ -15,8 +23,7 @@
         }],
         "repo_secrets" : [{
             "repo_secret_name" : "secret1",
-            "value" : "123456789",
-            "encryption" : true
+            "value" : "123456789"
         }]
     }, 
 
@@ -24,7 +31,11 @@
         "repo_name" : "repo2",
         "environments" : [{
             "env_name" : "env2",
-            "production" : false
+            "production" : false,
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret2",
+                "value" : "678954321"
+            }]
         }],
         "repo_variables" : [{
             "repo_var_name" : "var2",
@@ -32,8 +43,7 @@
         }],
         "repo_secrets" : [{
             "repo_secret_name" : "secret2",
-            "value" : "987654321",
-            "encryption" : true
+            "value" : "987654321"
         }]
     }, 
 
@@ -41,7 +51,11 @@
         "repo_name" : "repo3",
         "environments" : [{
             "env_name" : "env3",
-            "production" : true
+            "production" : true,
+            "env_secrets" : [{
+                "env_secret_name" : "envsecret4",
+                "value" : "987651234"
+            }]
         }],
         "repo_variables" : [{
             "repo_var_name" : "var3",
@@ -49,8 +63,7 @@
         }],
         "repo_secrets" : [{
             "repo_secret_name" : "secret3",
-            "value" : "123498765",
-            "encryption" : true
+            "value" : "123498765"
         }]
     }]
 }
