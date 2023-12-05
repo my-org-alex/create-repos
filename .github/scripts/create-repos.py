@@ -14,6 +14,12 @@ def encrypt(public_key: str, secret_value: str) -> str:
 class Repository:
     def __init__(self, name):
         self.__name = name
+    
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
 
     def create_repo(self, org, access_token):
         repo_name = self.__name
@@ -40,6 +46,12 @@ class Repository:
 class Environment:
     def __init__(self, name):
         self.__name = name
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
     
     def create_environment(self, org, access_token, repo_name):
         env_name = self.__name
@@ -57,6 +69,15 @@ class Environment:
 class EnvironmentSecret:
     def __init__(self, name, value):
         self.__name = name
+        self.__value = value
+    
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def set_value(self, value):
         self.__value = value
     
     def create_env_secret(self, org, access_token, repo_name, env_name):
@@ -98,6 +119,18 @@ class Variable:
         self.__name = name
         self.__value = value
 
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def get_name(self):
+        return self.__value
+
+    def set_name(self, value):
+        self.__value = value
+
     def create_variable(self, org, access_token, repo_name):
         var_name = self.__name
         value = self.__value
@@ -121,10 +154,18 @@ class Variable:
             print(f"Error creating variable '{var_name}'. Status code: {response.status_code}")
             print(response.text)
 
-
 class Secret:
     def __init__(self, name, value):
         self.__name = name
+        self.__value = value
+    
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def set_value(self, value):
         self.__value = value
 
     def create_secret(self, org, access_token, repo_name):
