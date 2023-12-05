@@ -131,6 +131,11 @@ class Secret:
         secret_name = self.__name
         value = self.__value
 
+        headers = {
+            "Authorization": f"token {access_token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+
         get_public_key = requests.get(f"https://api.github.com/repos/{org}/{repo_name}/actions/secrets/public-key", headers=headers)
         json_data = get_public_key.json()
         public_key = json_data["key"]
@@ -142,10 +147,6 @@ class Secret:
         "key_id": public_key_id
         }
 
-        headers = {
-            "Authorization": f"token {access_token}",
-            "Accept": "application/vnd.github.v3+json"
-        }
         endpoint = f"https://api.github.com/repos/{org}/{repo_name}/actions/secrets/{secret_name}"
         response = requests.put(endpoint, json=secret_data, headers=headers)
 
