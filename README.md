@@ -1,4 +1,3 @@
-# create-repos
 This repository has the goal of creating other repositories in an automated fashion.
 It has a Workflow that will run a python script which will recieve a JSON file as an input with all the repository info (can have multiple repositories).
 
@@ -9,6 +8,6 @@ The script can create one or more repositories with one or more:
     - Environment Secrets;
     - Repository Variables;
     - Repository Secrets.
-Other resources, must be implemented manually (for now)
+Other resources, must be implemented manually (for)
 
 Check "repo-example.json" for guidance on the JSON file structure.
